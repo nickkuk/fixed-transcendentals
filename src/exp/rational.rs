@@ -1,10 +1,8 @@
-use fixed::types::{I64F64, I8F120};
+use crate::{helpers::i128_shr, inner::from_u32};
 
-use crate::inner::from_u32;
-
-type Fix = I64F64;
+type Fix = fixed::types::I64F64;
 /// `FixP` is more accurate version of `Fix` for internal computations.
-type FixP = I8F120;
+type FixP = fixed::types::I8F120;
 
 const LOWER_BOUND: Fix = Fix::LN_2.saturating_mul(from_u32(Fix::FRAC_NBITS).saturating_neg());
 const UPPER_BOUND: Fix = Fix::LN_2.saturating_mul(from_u32(Fix::INT_NBITS - 1));
@@ -30,9 +28,5 @@ pub fn checked_exp(x: Fix) -> Option<Fix> {
     let c: FixP = r - rr * (P1 + rr * (P2 + rr * (P3 + rr * (P4 + rr * P5))));
     let exp_r: FixP = FixP::ONE + (r * c.checked_div(TWO - c)? + r);
     let shift: i32 = (FixP::FRAC_NBITS - Fix::FRAC_NBITS) as i32 - k.to_num::<i32>();
-    if shift >= 0 {
-        Some(Fix::from_bits(exp_r.to_bits() >> shift))
-    } else {
-        Some(Fix::from_bits(exp_r.to_bits() << (-shift)))
-    }
+    Some(Fix::from_bits(i128_shr(exp_r.to_bits(), shift)))
 }

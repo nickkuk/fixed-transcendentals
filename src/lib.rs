@@ -3,8 +3,11 @@
 mod arith;
 mod decimal;
 mod exp;
+mod helpers;
 mod inner;
+mod ln;
 mod sqrt;
+
 #[cfg(feature = "substrate")]
 mod substrate;
 
