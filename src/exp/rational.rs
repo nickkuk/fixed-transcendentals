@@ -7,6 +7,7 @@ type FixP = fixed::types::I8F120;
 const LOWER_BOUND: Fix = Fix::LN_2.saturating_mul(from_u32(Fix::FRAC_NBITS).saturating_neg());
 const UPPER_BOUND: Fix = Fix::LN_2.saturating_mul(from_u32(Fix::INT_NBITS - 1));
 
+const HALF: Fix = Fix::unwrapped_from_str("0.5");
 const TWO: FixP = FixP::unwrapped_from_str("2.0");
 const P1: FixP = FixP::unwrapped_from_str("0.166666666666666019037");
 const P2: FixP = FixP::unwrapped_from_str("-0.00277777777770155933842");
@@ -30,7 +31,7 @@ pub fn checked_exp(x: Fix) -> Option<Fix> {
 /// Returns pair (k, r) where x = k * ln(2) + r and |r| <= ln(2) / 2.
 fn reduce_arg(x: Fix) -> (Fix, FixP) {
     // k is integer from [-Fix::FRAC_NBITS, Fix::INT_NBITS - 1]
-    let k: Fix = (Fix::LOG2_E * x).round();
+    let k: Fix = (Fix::LOG2_E * x + HALF).ceil();
     let r: FixP = FixP::from_num(x) - FixP::LN_2 * FixP::from_num(k);
     (k, r)
 }
