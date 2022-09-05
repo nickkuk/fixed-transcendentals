@@ -10,7 +10,7 @@ pub(crate) const fn from_u32(num: u32) -> Inner {
     from_i64(num as i64)
 }
 
-#[derive(Clone, Copy, Default, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serdeize", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fixed(pub(crate) Inner);
 
