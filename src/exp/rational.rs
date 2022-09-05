@@ -3,7 +3,7 @@ use crate::{
     types::{from_u32, Fix},
 };
 
-/// Extended precision fixed-point numbers for internal computations.
+/// Extended-precision fixed-point numbers for internal computations.
 type Ext = fixed::types::I8F120;
 
 const LOWER_BOUND: Fix = Fix::LN_2.saturating_mul(from_u32(Fix::FRAC_NBITS).saturating_neg());
