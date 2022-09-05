@@ -1,4 +1,4 @@
-use crate::inner::{from_i64, Inner};
+use crate::types::{from_i64, Fix};
 
 impl crate::Fixed {
     /// Checked cast from a fixed-point number with the power of ten denominator.
@@ -25,8 +25,8 @@ impl crate::Fixed {
 struct C<const POW_OF_TEN: u32> {}
 
 impl<const POW_OF_TEN: u32> C<POW_OF_TEN> {
-    const FACTOR_FROM: Inner = from_i64(2_i64.pow(Inner::INT_NBITS - POW_OF_TEN))
+    const FACTOR_FROM: Fix = from_i64(2_i64.pow(Fix::INT_NBITS - POW_OF_TEN))
         .saturating_div(from_i64(5_i64.pow(POW_OF_TEN)));
-    const FACTOR_TO: Inner = from_i64(5_i64.pow(POW_OF_TEN))
-        .saturating_div(from_i64(2_i64.pow(Inner::INT_NBITS - POW_OF_TEN)));
+    const FACTOR_TO: Fix = from_i64(5_i64.pow(POW_OF_TEN))
+        .saturating_div(from_i64(2_i64.pow(Fix::INT_NBITS - POW_OF_TEN)));
 }

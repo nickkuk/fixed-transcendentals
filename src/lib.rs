@@ -4,9 +4,9 @@ mod arith;
 mod decimal;
 mod exp;
 mod helpers;
-mod inner;
 mod ln;
 mod sqrt;
+mod types;
 
 #[cfg(feature = "substrate")]
 mod substrate;
@@ -14,4 +14,4 @@ mod substrate;
 #[cfg(feature = "substrate")]
 extern crate alloc;
 
-pub use inner::Fixed;
+pub use types::Fixed;
