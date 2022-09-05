@@ -1,4 +1,4 @@
-use crate::{helpers::i128_shr, types::Fix};
+use crate::{helpers::i128_shl, types::Fix};
 
 /// Extended-precision fixed-point numbers for intermediate computations.
 type Ext = fixed::types::I8F120;
@@ -24,8 +24,8 @@ pub fn checked_ln(x: Fix) -> Option<Fix> {
 fn reduce_arg(x: Fix) -> Option<(i32, Ext)> {
     // l is integer from [-Fix::FRAC_NBITS, Fix::INT_NBITS - 2]
     let l = x.checked_int_log2()?;
-    let shift: i32 = l - (Ext::FRAC_NBITS - Fix::FRAC_NBITS) as i32;
-    let f1: Ext = Ext::from_bits(i128_shr(x.to_bits(), shift));
+    let shift: i32 = (Ext::FRAC_NBITS - Fix::FRAC_NBITS) as i32 - l;
+    let f1: Ext = Ext::from_bits(i128_shl(x.to_bits(), shift));
     if f1 < Ext::SQRT_2 {
         Some((l, f1))
     } else {

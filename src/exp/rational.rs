@@ -1,5 +1,5 @@
 use crate::{
-    helpers::i128_shr,
+    helpers::i128_shl,
     types::{from_u32, Fix},
 };
 
@@ -47,6 +47,6 @@ fn special_exp(r: Ext) -> Option<Ext> {
 }
 
 fn recover(k: Fix, exp_r: Ext) -> Fix {
-    let shift: i32 = (Ext::FRAC_NBITS - Fix::FRAC_NBITS) as i32 - k.to_num::<i32>();
-    Fix::from_bits(i128_shr(exp_r.to_bits(), shift))
+    let shift: i32 = k.to_num::<i32>() - (Ext::FRAC_NBITS - Fix::FRAC_NBITS) as i32;
+    Fix::from_bits(i128_shl(exp_r.to_bits(), shift))
 }
