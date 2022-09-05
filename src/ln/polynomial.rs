@@ -1,6 +1,6 @@
 use crate::{helpers::i128_shl, types::Fix};
 
-/// Extended-precision fixed-point numbers for intermediate computations.
+/// Extended-precision fixed-point number for intermediate computations.
 type Ext = fixed::types::I8F120;
 
 const TWO: Ext = Ext::unwrapped_from_str("2.0");
