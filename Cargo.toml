@@ -9,7 +9,8 @@ substrate = ["parity-scale-codec", "scale-info"]
 
 [dependencies]
 parity-scale-codec = { version = "3.1", default-features = false, features = ["max-encoded-len"], optional = true }
-fixed = "1.0"
+# fixed = "1.0"
+fixed = { git = "https://gitlab.com/tspiteri/fixed.git", branch = "v1" }
 fixed-sqrt = "0.2"
 scale-info = { version = "2.1", default-features = false, optional = true }
 serde = { version = "1.0", default-features = false, features = ["derive"], optional = true }

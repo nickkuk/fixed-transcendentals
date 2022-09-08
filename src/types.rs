@@ -10,8 +10,9 @@ pub(crate) const fn from_u32(num: u32) -> Fix {
     from_i64(num as i64)
 }
 
-#[derive(Clone, Copy, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "serdeize", derive(serde::Serialize, serde::Deserialize))]
+// #[derive(Clone, Copy, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
+// #[cfg_attr(feature = "serdeize", derive(serde::Serialize, serde::Deserialize))]
+// #[repr(transparent)]
 pub struct Fixed(pub(crate) Fix);
 
 impl Fixed {
@@ -33,14 +34,14 @@ impl Fixed {
     }
 }
 
-impl core::fmt::Debug for Fixed {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
-        write!(f, "{:?}", self.0)
-    }
-}
+// impl core::fmt::Debug for Fixed {
+//     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
+//         write!(f, "{:?}", self.0)
+//     }
+// }
 
-impl core::fmt::Display for Fixed {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
-        write!(f, "{}", self.0)
-    }
-}
+// impl core::fmt::Display for Fixed {
+//     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
+//         write!(f, "{}", self.0)
+//     }
+// }
