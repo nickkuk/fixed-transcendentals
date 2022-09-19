@@ -122,9 +122,9 @@ fn test384783478347() {
 // pub mod int256_test7;
 // pub mod int256_test8;
 // pub mod fix64;
-// pub mod multiplier2;
+pub mod multiplier2;
 // mod ui256;
-pub mod fix128;
+// pub mod fix128;
 
 // pub use ui256::i256;
 
