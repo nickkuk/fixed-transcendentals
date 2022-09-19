@@ -120,17 +120,20 @@ fn test384783478347() {
 // pub mod int256_test5;
 // pub mod int256_test6;
 // pub mod int256_test7;
-pub mod multiplier2;
-mod ui256;
+// pub mod int256_test8;
+// pub mod fix64;
+// pub mod multiplier2;
+// mod ui256;
+pub mod fix128;
 
-pub use ui256::i256;
+// pub use ui256::i256;
 
-pub fn test0(u: i256) -> Option<i128> {
-    u.shr_trunc(0)
-}
+// pub fn test0(u: i256) -> Option<i128> {
+//     u.shr_trunc(0)
+// }
 
-#[test]
-fn test3487384734() {
-    dbg!(u64::MAX as i128);
-    dbg!(-1_i64 as u128 == u128::MAX);
-}
+// #[test]
+// fn test3487384734() {
+//     dbg!(u64::MAX as i128);
+//     dbg!(-1_i64 as u128 == u128::MAX);
+// }
