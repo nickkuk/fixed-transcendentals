@@ -27,6 +27,10 @@ impl u256 {
             }
         }
     }
+    #[inline]
+    pub const fn checked_shl_trunc(self, shift: i32) -> Option<u128> {
+        None
+    }
 }
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]

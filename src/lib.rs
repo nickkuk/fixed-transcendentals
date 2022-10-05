@@ -1,12 +1,12 @@
 #![cfg_attr(not(test), no_std)]
 
-// mod arith;
-// mod decimal;
+mod arith;
+mod decimal;
 // mod exp;
-// mod helpers;
+mod helpers;
 // mod ln;
 // mod sqrt;
-// mod types;
+mod types;
 
 // #[cfg(feature = "substrate")]
 // mod substrate;
@@ -14,7 +14,7 @@
 // #[cfg(feature = "substrate")]
 // extern crate alloc;
 
-// pub use types::Fixed;
+pub use types::Fixed;
 
 // pub mod int256;
 // pub mod int256_test;
@@ -33,7 +33,7 @@
 //     }
 // }
 
-// type Fix = fixed::types::I64F64;
+// pub type Fix = fixed::types::I64F64;
 // type FixP = fixed::types::I40F88;
 // type FixPP = fixed::types::I2F126;
 
@@ -123,8 +123,9 @@ fn test384783478347() {
 // pub mod int256_test8;
 // pub mod fix64;
 pub mod multiplier2;
-// mod ui256;
+mod ui256;
 // pub mod fix128;
+pub mod decimal4;
 
 // pub use ui256::i256;
 

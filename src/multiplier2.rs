@@ -1,3 +1,6 @@
+use crate::ui256::wide_mul_ui128;
+use fixed::{types::extra::LeEqU128, FixedI128};
+
 /// Extended-precision fixed-point number for intermediate computations.
 type Ext = fixed::types::U0F128;
 
@@ -99,6 +102,37 @@ impl Multiplier {
     pub const fn shr(self, shift: i32) -> Self {
         self.shl(-shift)
     }
+    #[inline]
+    pub const fn run_checked<Frac: LeEqU128>(self, x: FixedI128<Frac>) -> Option<FixedI128<Frac>> {
+        match self.0 {
+            Inner::Zero => Some(FixedI128::ZERO),
+            Inner::SignExp(sign_exp) => {
+                let shift = sign_exp.exp.unsigned_abs();
+                let mut r = x;
+                if sign_exp.exp > 0 {
+                    if shift > max_shl(x.to_bits()) {
+                        return None;
+                    }
+                    r = r.wrapping_shl(shift);
+                } else if sign_exp.exp < 0 {
+                    if shift >= i128::BITS {
+                        return Some(FixedI128::ZERO);
+                    }
+                    r = r.wrapping_shr(shift);
+                }
+                if !sign_exp.sign {
+                    Some(r)
+                } else {
+                    r.checked_neg()
+                }
+            }
+            Inner::General { sign_exp, factor } => {
+                let sh = 128 - sign_exp.exp;
+                // let r = wide_mul_ui128(factor.to_bits(), x.to_bits()).shr_trunc(sh);
+                None
+            }
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -168,5 +202,38 @@ impl SignExp {
     }
     const fn shr(self, shift: i32) -> Self {
         self.shl(-shift)
+    }
+}
+
+/// Maximal possible parameter for left shift that can be done without overflow.
+const fn max_shl(x: i128) -> u32 {
+    if x > 0 {
+        x.leading_zeros().saturating_sub(1)
+    } else if x == 0 {
+        u32::MAX
+    } else {
+        (!x).leading_zeros().saturating_sub(1)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_possible_shl() {
+        assert_eq!(max_shl(i128::MIN), 0);
+        assert_eq!(max_shl(i128::MIN + 1), 0);
+        assert_eq!(max_shl((i128::MIN >> 1) - 1), 0);
+        assert_eq!(max_shl(i128::MIN >> 1), 1);
+        assert_eq!(max_shl((i128::MIN >> 1) + 1), 1);
+        assert_eq!(max_shl(-2), 126);
+        assert_eq!(max_shl(-1), 127);
+        assert_eq!(max_shl(1), 126);
+        assert_eq!(max_shl(2), 125);
+        assert_eq!(max_shl((i128::MAX >> 1) - 1), 1);
+        assert_eq!(max_shl(i128::MAX >> 1), 1);
+        assert_eq!(max_shl((i128::MAX >> 1) + 1), 0);
+        assert_eq!(max_shl(i128::MAX - 1), 0);
+        assert_eq!(max_shl(i128::MAX), 0);
     }
 }
